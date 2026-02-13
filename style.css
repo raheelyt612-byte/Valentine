@@ -1,0 +1,170 @@
+/* GLOBAL THEME */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #ffe6f0 0%, #ffccee 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* NAVBAR */
+.navbar {
+    background: white;
+    padding: 20px 0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    width: 100%;
+}
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+.nav-logo { font-size: 32px; font-weight: 900; color: #ff0066; }
+.nav-menu { list-style: none; display: flex; gap: 20px; }
+.nav-link { text-decoration: none; color: #333; font-weight: 800; font-size: 18px; }
+
+/* THE WRAPPER */
+.content-wrapper {
+    max-width: 1100px;
+    width: 90%;
+    margin: 40px auto;
+    display: flex;
+    gap: 20px;
+    background: rgba(255, 255, 255, 0.3);
+    padding: 20px;
+    border-radius: 30px;
+    backdrop-filter: blur(10px);
+}
+
+/* THE MAIN BOX - FORCED CENTERING */
+.main-content-card {
+    flex: 3;
+    background: white;
+    border-radius: 25px;
+    padding: 80px 40px; /* High padding to help center */
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+
+    /* THIS IS THE CORE CENTERING CODE */
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important; 
+    align-items: center !important;
+    text-align: center !important;
+}
+
+/* SIDE BAR */
+.side-info-bar {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    justify-content: center;
+}
+
+/* BIG BOLD TEXT */
+h1 { font-size: 4rem; font-weight: 900; color: #ff0066; margin: 0 auto !important; width: 100%; }
+h2 { font-size: 2.2rem; font-weight: 800; color: #cc0066; margin: 20px auto !important; width: 100%; }
+p { font-size: 20px; font-weight: 700; color: #444; margin: 10px auto !important; width: 100%; }
+
+
+function createFallingLetters() {
+    const letters = ['R', 'M'];
+    const container = document.body;
+    
+    setInterval(() => {
+        const el = document.createElement('div');
+        el.className = 'falling-letter';
+        
+        // Pick R or M
+        const initial = letters[Math.floor(Math.random() * letters.length)];
+        
+        // Create the letter "envelope" look
+        el.innerHTML = `
+            <div class="letter-box">
+                <span class="initial">${initial}</span>
+                <span class="heart-seal">❤️</span>
+            </div>
+        `;
+        
+        // Random Position
+        el.style.left = Math.random() * 100 + 'vw';
+        
+        // Random Animation Speed
+        const duration = Math.random() * 4 + 5; // 5 to 9 seconds
+        el.style.animationDuration = duration + 's';
+        
+        // Random horizontal drift
+        el.style.setProperty('--drift', (Math.random() * 200 - 100) + 'px');
+
+        container.appendChild(el);
+
+        // Cleanup
+        setTimeout(() => { el.remove(); }, duration * 1000);
+    }, 600); // New letter every 600ms
+}
+
+window.addEventListener('DOMContentLoaded', createFallingLetters);
+
+/* FALLING ANIMATION */
+.falling-element {
+    position: fixed;
+    top: -50px;
+    font-weight: 900;
+    pointer-events: none;
+    z-index: 999;
+    animation: fall linear forwards;
+    color: #ff0066;
+}
+@keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+/* LOVE LETTER ANIMATION */
+.falling-letter {
+    position: fixed;
+    top: -100px;
+    z-index: 999;
+    pointer-events: none;
+    animation: tumble linear forwards;
+}
+
+.letter-box {
+    background: white;
+    width: 50px;
+    height: 35px;
+    border: 2px solid #ff0066;
+    border-radius: 4px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 3px 3px 10px rgba(0,0,0,0.1);
+}
+
+.initial {
+    color: #ff0066;
+    font-weight: 900;
+    font-size: 20px;
+}
+
+.heart-seal {
+    position: absolute;
+    bottom: -8px;
+    font-size: 12px;
+}
+
+@keyframes tumble {
+    0% {
+        transform: translateY(0) rotate(0deg);
+    }
+    100% {
+        /* This makes the letter drift sideways and rotate as it falls */
+        transform: translateY(110vh) translateX(var(--drift)) rotate(720deg);
+    }
+}
